@@ -1,0 +1,8 @@
+name = "webshack-site"
+main = "webshack-worker.js"
+compatibility_date = "2026-07-07"
+
+routes = [
+  { pattern = "webshack.us/*", zone_name = "webshack.us" },
+  { pattern = "www.webshack.us/*", zone_name = "webshack.us" }
+]

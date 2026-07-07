@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+  <filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="4"/></filter>
+  <rect width="120" height="120" filter="url(#n)" opacity=".5"/>
+  <path d="M0 0h120M0 16h120M0 32h120M0 48h120M0 64h120M0 80h120M0 96h120M0 112h120" stroke="#fff" stroke-opacity=".08"/>
+</svg>
