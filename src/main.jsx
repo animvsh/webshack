@@ -441,6 +441,83 @@ const caseStudies = {
   },
 };
 
+const proofPoints = {
+  capy: [
+    "Backed by Founders, Inc.",
+    "Original autonomous outbound sales direction before the broader Beevr company-brain expansion.",
+    "Positioned as AI Sales Development: a 24/7 AI SDR system that turns a website into meetings.",
+  ],
+  beevr: [
+    "Backed by Founders, Inc.",
+    "Newer company-brain direction that came after Capy.",
+    "Positioned around 40+ connectors, cited answers, proactive insights, and plain-English agents.",
+  ],
+  forgeit: [
+    "Live deployed internal-tool builder concept at forgeit.live.",
+    "Original portfolio included a supplied YouTube demo for the builder workflow.",
+    "Built around the idea of turning plain-English internal workflows into usable dashboards and automations.",
+  ],
+  clawforge: [
+    "Winner at NVIDIA Hackathon.",
+    "Connected to the broader Claw/OpenClaw experimentation thread.",
+    "Built around prompt-to-workflow instead of just prompt-to-page.",
+  ],
+  lingoose: [
+    "CalHacks / Berkeley AI Hackathon winner.",
+    "Built around real phone calls instead of another chat box.",
+    "The memorable product idea: a short daily language-practice call that interrupts like a real conversation.",
+  ],
+  hackarena: [
+    "Submitted to Cal Hacks 12.0.",
+    "Built a market mechanic for hackathon project discovery.",
+    "Turned hackathon attention into a live prediction-market style product.",
+  ],
+  pielot: [
+    "Built for the OpenAI Hackathon.",
+    "Focused on production-realistic execution rather than fake assistant output.",
+    "Core flow includes consent, compliance, approval, scheduling, and campaign tracking.",
+  ],
+  classmate: [
+    "Winner at SCEE Business Hackathon / Ideathon 2024.",
+    "Pitch deck included 400 students and 2+ professors.",
+    "$4k pre-seed was noted in the roadmap.",
+  ],
+  piefi: [
+    "Explored a physical/digital builder community.",
+    "Included build-in-public and product-a-week community experiments.",
+    "Useful as a cold-start and founder-led distribution learning project, even though it did not become the company.",
+  ],
+  openvision: [
+    "Public GitHub project.",
+    "Education tooling direction focused on classroom visibility and feedback loops.",
+  ],
+  "brok-mail": [
+    "Concrete Gmail plus Calendar assistant workflow.",
+    "Separated as its own Brok Mail surface instead of being buried inside a broader assistant.",
+  ],
+  "round-robin": [
+    "Large automation surface across voice, email, SMS, summaries, and reporting.",
+    "Designed around repeated structured conversations instead of one-off notes.",
+  ],
+  burb: [
+    "Full course-generation workspace with PDF, module, article, and quiz flows.",
+    "Built around turning messy learning material into a guided path.",
+  ],
+  "daily-adventure-calls": [
+    "End-to-end consumer app surface with media generation, SMS links, calls, and payments.",
+    "A recurring daily ritual rather than a one-off generated story.",
+  ],
+  "fez-lab-finder": [
+    "Clear student research-position product concept.",
+    "Focused on lab discovery, preparation, mentorship, and guided outreach.",
+  ],
+  "here-for-you": [
+    "Described by Santa Cruz Works as a platform for communication, task coordination, fundraising, gift registries, and resource sharing.",
+    "Most interesting as a startup/product surface because it turns vague community support into concrete help.",
+    "Live product includes support pages, care categories, and a public support-page discovery map.",
+  ],
+};
+
 const mediaByProduct = {
   beevr: {
     source: "Product media from my-search-me",
@@ -460,6 +537,12 @@ const mediaByProduct = {
   capy: {
     source: "Product media from my-search-me",
     screenshots: ["/project-media/capy/screen-1.png", "/project-media/capy/screen-2.png", "/project-media/capy/screen-3.png"],
+    embeds: [
+      {
+        label: "Capy LinkedIn demo",
+        src: "https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7413374592599113728?collapsed=1",
+      },
+    ],
     videos: ["/project-media/capy/demo.webm", "/project-media/capy/hyperframe.mp4", "/project-media/capy/user-demo-raw.webm", "/project-media/capy/walkthrough.mp4"],
   },
   classmate: {
@@ -480,6 +563,12 @@ const mediaByProduct = {
   clawforge: {
     source: "Product media from my-search-me",
     screenshots: ["/project-media/clawforge/screen-1.png", "/project-media/clawforge/screen-2.png", "/project-media/clawforge/screen-3.png"],
+    embeds: [
+      {
+        label: "ClawForge demo",
+        src: "https://www.youtube.com/embed/N9ZKgs9UvGE",
+      },
+    ],
     videos: [
       "/project-media/clawforge/clean-demo.mp4",
       "/project-media/clawforge/demo.webm",
@@ -499,6 +588,12 @@ const mediaByProduct = {
   forgeit: {
     source: "Product media from my-search-me",
     screenshots: ["/project-media/forgeit/screen-1.png", "/project-media/forgeit/screen-2.png", "/project-media/forgeit/screen-3.png"],
+    embeds: [
+      {
+        label: "ForgeIt demo video",
+        src: "https://www.youtube.com/embed/inolX5ujj8w",
+      },
+    ],
   },
   "fez-lab-finder": {
     source: "Product media from my-search-me",
@@ -568,6 +663,7 @@ const mediaByProduct = {
 const productsWithCaseStudies = products.map((product) => ({
   ...product,
   caseStudy: caseStudies[product.slug],
+  proofPoints: proofPoints[product.slug],
   media: mediaByProduct[product.slug],
 }));
 
@@ -818,15 +914,38 @@ function ProductPage({ product, onBack }) {
         </div>
       </section>
 
+      {product.proofPoints ? <ProofPoints product={product} /> : null}
+
       {product.media ? <ProductMedia product={product} /> : null}
     </main>
   );
 }
 
+function ProofPoints({ product }) {
+  return (
+    <section className="section proof-section">
+      <div className="section-head">
+        <p>{product.tag}</p>
+        <h2>wins & quirks</h2>
+      </div>
+      <div className="proof-list">
+        {product.proofPoints.map((point, index) => (
+          <article key={point}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <p>{point}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function ProductMedia({ product }) {
+  const embeds = product.media.embeds || [];
   const videos = product.media.videos || [];
   const screenshots = product.media.screenshots || [];
   const documents = product.media.documents || [];
+  const demos = [...embeds, ...videos.map((video) => ({ src: video }))];
 
   return (
     <section className="section product-media">
@@ -835,15 +954,24 @@ function ProductMedia({ product }) {
         <h2>media</h2>
       </div>
 
-      {videos.length ? (
+      {demos.length ? (
         <div className="video-grid">
-          {videos.map((video, index) => (
-            <article className="video-card" key={video}>
+          {demos.map((demo, index) => (
+            <article className="video-card" key={demo.src}>
               <div>
                 <span>{String(index + 1).padStart(2, "0")}</span>
-                <p>{video.split("/").pop().replace(/\.(mp4|webm)$/i, "").replaceAll("-", " ")}</p>
+                <p>{demo.label || demo.src.split("/").pop().replace(/\.(mp4|webm)$/i, "").replaceAll("-", " ")}</p>
               </div>
-              <video controls playsInline preload={index === 0 ? "metadata" : "none"} poster={screenshots[0]} src={video} />
+              {demo.src.includes("/embed/") ? (
+                <iframe
+                  src={demo.src}
+                  title={demo.label || `${product.title} demo`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              ) : (
+                <video controls playsInline preload={index === 0 ? "metadata" : "none"} poster={screenshots[0]} src={demo.src} />
+              )}
             </article>
           ))}
         </div>
